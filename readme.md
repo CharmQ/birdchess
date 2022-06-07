@@ -1,7 +1,7 @@
 # Bird Chess
 
 <div align="justify">
-Bird Chess is the title of a basic project zulfarZUK1693 and I have created to practice our python skills - or lackthereof. Chess became a common interest to both of us for several years now, perhaps even longer for zulfarZUK himself, and we were throwing around the idea of starting a project together. zulfarZUK's experience with projects have so far been unsatisfactory so far... to say the least. Everytime he brings up the idea of starting a project with another person, that person promptly disappears, as if spirited away by some unknown force in the ether. I suppose zulfarZUK has that kind of effect on people. Perhaps this project may prove to be different, but if you don't hear from me after a while, then I too have fallen victim to this unknown force.
+Bird Chess is the title of a basic project zulfarZUK1693 and I have created to practice our python skills - or lackthereof. Chess became a common interest to the both of us for several years now, perhaps even longer for zulfarZUK himself, and we were throwing around the idea of starting a project together. zulfarZUK's experience with projects have so far been unsatisfactory so far... to say the least. Everytime he brings up the idea of starting a project with another person, that person promptly disappears, as if spirited away by some unknown force in the ether. I suppose zulfarZUK has that kind of effect on people. Perhaps this project may prove to be different, but if you don't hear from me after a while, then I too have fallen victim to this unknown force.
 
 </div>
 
