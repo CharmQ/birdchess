@@ -10,6 +10,7 @@ Bird Chess is the title of a basic project zulfarZUK1693 and I have created to p
 <div align="justify">
 The goal of Bird Chess is to successfully implement the following features:
 
+
 1. Create a standard 8x8 chess board with pieces; and
 2. Establish the standard rules of the game; and
 3. Create an AI that the user can play against that plays legal moves.
