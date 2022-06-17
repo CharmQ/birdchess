@@ -1,9 +1,9 @@
 class Space:
 
-    def __init__(self, isDark, id, numID, piece, board, drawID=None):
+    def __init__(self, isDark, id, loc, piece, board, drawID=None):
         self.isDark = isDark
         self.id = id
-        self.numID = numID
+        self.loc = loc
         self.piece = piece
         if self.piece:
             self.piece.setSpace(self)
@@ -16,8 +16,8 @@ class Space:
     def getID(self):
         return self.id
 
-    def getNumID(self):
-        return self.numID
+    def getLoc(self):
+        return self.loc
 
     def getDrawID(self):
         return self.drawID

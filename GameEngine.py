@@ -21,18 +21,20 @@ class GameEngine:
         spaces = self.Board.getSpaces()
 
         for i in range(len(spaces)):
+            print(len(spaces))
+            for j in range(len(spaces[0])):
 
-            xtopleft = (i * (90) % 720)
-            yTopLeft = ((i * 90)//720) * 90
+                xtopleft = i * 90
+                yTopLeft = j * 90
 
-            if spaces[i].checkIfDark():
-                color = "green"
-            else:
-                color = "white"
+                if spaces[i][j].checkIfDark():
+                    color = "green"
+                else:
+                    color = "white"
 
-            self.canvas.create_rectangle(xtopleft, yTopLeft, xtopleft+90, yTopLeft+90, fill=color)
-            if spaces[i].getPiece():
-                spaces[i].getPiece().setDrawID(self.canvas.create_text(xtopleft + 45, yTopLeft + 45, font=("Arial", 66), text=chr(spaces[i].getPiece().getCode())))
+                self.canvas.create_rectangle(xtopleft, yTopLeft, xtopleft+90, yTopLeft+90, fill=color)
+                if spaces[i][j].getPiece():
+                    spaces[i][j].getPiece().setDrawID(self.canvas.create_text(xtopleft + 45, yTopLeft + 45, font=("Arial", 66), text=chr(spaces[i][j].getPiece().getCode())))
 
 
 

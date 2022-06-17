@@ -9,14 +9,13 @@ from Queen import Queen
 
 class ChessBoard:
     def __init__(self, pieces=[None]*64):
-        spaces = []
+        spaces = [[0]*8 for i in range(8)]
         temp = None
         temp_num = 0
-        for i in range(8, 0, -1):
-            for j in range(ord('a'), ord('i')):
-                temp_num = 1 + (j - ord('a') + (8-i)*8)
-                temp = Space((i + j) % 2 == 0, chr(j) + str(i), temp_num, pieces[temp_num-1], self)
-                spaces.append(temp)
+        for i in range(0, 8):
+            for j in range(0, 8):
+                temp = Space((i + j) % 2 == 0, chr(ord('a') + j) + str(i), (i, j), pieces[i + j*8], self)
+                spaces[i][j] = temp
 
         self.spaces = spaces
 
