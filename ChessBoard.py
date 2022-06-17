@@ -14,7 +14,7 @@ class ChessBoard:
         temp_num = 0
         for i in range(0, 8):
             for j in range(0, 8):
-                temp = Space((i + j) % 2 == 0, chr(ord('a') + j) + str(i), (i, j), pieces[i + j*8], self)
+                temp = Space((i + j) % 2 == 1, chr(ord('a') + j) + str(i), (i, j), pieces[i + j*8], self)
                 spaces[i][j] = temp
 
         self.spaces = spaces
