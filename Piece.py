@@ -10,7 +10,7 @@ class Piece:
         self.drawID = drawID
         self.code = ""
 
-    def checkIsBlack(self):
+    def isBlack(self):
         return self.isBlack
 
     def getSpace(self):

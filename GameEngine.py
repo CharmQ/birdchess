@@ -10,18 +10,26 @@ class GameEngine:
         self.canvas.pack()
         self.Board = ChessBoard.FEN_BoardGenerator("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
         self.printBoard()
-        self.UIHandler = UIHandler(self.canvas, self.Board)
+        self.UIHandler = UIHandler(self.canvas, self.Board, self)
+        self.isBlackTurn = False
 
     def run(self):
         self.window.mainloop()
 
+
+    def toggleTurn(self):
+        self.isBlackTurn = not(self.isBlackTurn)
+
+    def moveIsLegal(self, piece):
+        if piece.isBlack == self.isBlackTurn:
+            return True
+        return False
 
     def printBoard(self):
 
         spaces = self.Board.getSpaces()
 
         for i in range(len(spaces)):
-            print(len(spaces))
             for j in range(len(spaces[0])):
 
                 xtopleft = i * 90
