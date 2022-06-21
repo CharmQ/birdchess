@@ -9,3 +9,9 @@ class Pawn(Piece):
             self.code = int("265F", 16)
         else:
             self.code = int("2659", 16)
+
+    def legalMoves():
+        pass
+
+    def standardMoves(self):
+        pass

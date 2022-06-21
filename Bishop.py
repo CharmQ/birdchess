@@ -9,3 +9,9 @@ class Bishop(Piece):
             self.code = int("265D", 16)
         else:
             self.code = int("2657", 16)
+
+    def legalMoves():
+        pass
+
+    def standardMoves(self):
+        pass

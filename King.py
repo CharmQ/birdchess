@@ -10,7 +10,7 @@ class King(Piece):
         else:
             self.code = int("2654", 16)
 
-    def legalmove(self):
+    def legalMoves(self):
         board = self.getSpace().getBoard()
         loc = self.getSpace().getLoc()
         moves = []
@@ -24,6 +24,8 @@ class King(Piece):
                 except Exception:
                     pass
 
+    def standardMoves(self):
+        pass
 '''
 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5 | 0,6 | 0,7 |
 1,0 | 1,1 | 1,2 | 1,3 | 1,4 | 1,5 | 1,6 | 1,7 |

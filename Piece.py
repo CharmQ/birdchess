@@ -1,7 +1,9 @@
+from abc import ABC
+from abc import abstractmethod
 from Space import Space
 
 
-class Piece:
+class Piece(ABC):
 
     def __init__(self, isBlack, drawID = None, space=None):
         self.isBlack = isBlack
@@ -10,14 +12,11 @@ class Piece:
         self.drawID = drawID
         self.code = ""
 
-    def isBlack(self):
+    def checkIsBlack(self):
         return self.isBlack
 
     def getSpace(self):
         return self.space
-
-    def computeMoves(self):
-        pass
 
     def getMoves(self):
         return self.moves
@@ -37,3 +36,15 @@ class Piece:
     def delete(self, canvas):
         self.getSpace().setPiece(None)
         canvas.delete(self.getDrawID())
+    
+    def isMoveLegal(self, targetSpace):
+        return True
+        #return targetSpace in self.legalMoves()
+
+    @abstractmethod
+    def legalMoves(self):
+        pass
+    
+    @abstractmethod
+    def standardMoves(self):
+        pass

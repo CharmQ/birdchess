@@ -9,3 +9,9 @@ class Knight(Piece):
             self.code = int("265E", 16)
         else:
             self.code = int("2658", 16)
+
+    def legalMoves():
+        pass
+
+    def standardMoves(self):
+        pass

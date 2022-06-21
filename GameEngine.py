@@ -1,6 +1,7 @@
 from tkinter import *
 from UIHandler import UIHandler
 from ChessBoard import ChessBoard
+from Team import Team
 
 
 class GameEngine:
@@ -8,7 +9,10 @@ class GameEngine:
         self.window = window
         self.canvas = Canvas(window, bg="white", width=self.window.winfo_screenwidth(), height=self.window.winfo_screenheight())
         self.canvas.pack()
-        self.Board = ChessBoard.FEN_BoardGenerator("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+        self.whitePieces = Team()
+        self.blackPieces = Team()
+        self.Board = ChessBoard.FEN_BoardGenerator("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", self.whitePieces, self.blackPieces)
+        print(self.blackPieces.getKing().getSpace().getID())
         self.printBoard()
         self.UIHandler = UIHandler(self.canvas, self.Board, self)
         self.isBlackTurn = False
@@ -16,12 +20,18 @@ class GameEngine:
     def run(self):
         self.window.mainloop()
 
+    def getWhitePieces(self):
+        return self.whitePieces
+    
+    def getBlackPieces(self):
+        return self.blackPieces
 
     def toggleTurn(self):
         self.isBlackTurn = not(self.isBlackTurn)
 
-    def moveIsLegal(self, piece):
-        if piece.isBlack == self.isBlackTurn:
+    def moveIsLegal(self, piece, targetSpace):
+        if piece.checkIsBlack() == self.isBlackTurn:
+            #if piece
             return True
         return False
 
@@ -32,8 +42,8 @@ class GameEngine:
         for i in range(len(spaces)):
             for j in range(len(spaces[0])):
 
-                xtopleft = i * 90
-                yTopLeft = j * 90
+                xtopleft = j * 90
+                yTopLeft = i * 90
 
                 if spaces[i][j].checkIfDark():
                     color = "green"

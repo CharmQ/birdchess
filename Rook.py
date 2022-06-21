@@ -9,3 +9,9 @@ class Rook(Piece):
             self.code = int("265C", 16)
         else:
             self.code = int("2656", 16)
+
+    def legalMoves():
+        pass
+
+    def standardMoves(self):
+        pass

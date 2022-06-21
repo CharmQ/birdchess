@@ -11,10 +11,9 @@ class ChessBoard:
     def __init__(self, pieces=[None]*64):
         spaces = [[0]*8 for i in range(8)]
         temp = None
-        temp_num = 0
         for i in range(0, 8):
             for j in range(0, 8):
-                temp = Space((i + j) % 2 == 1, chr(ord('a') + j) + str(i), (i, j), pieces[i + j*8], self)
+                temp = Space((i + j) % 2 == 1, chr(ord('a') + j) + str(8 - i), (i, j), pieces[i*8 + j], self)
                 spaces[i][j] = temp
         self.spaces = spaces
 
@@ -22,7 +21,7 @@ class ChessBoard:
         return self.spaces
 
     @classmethod
-    def FEN_BoardGenerator(cls, FENString):
+    def FEN_BoardGenerator(cls, FENString, whitePieces, blackPieces):
 
         FENString = FENString.replace("/", "")
         pieces=[None]*64
@@ -60,7 +59,13 @@ class ChessBoard:
                 pieces[index] = Queen(True)
             elif chara == "Q":
                 pieces[index] = Queen(False)
-            index += 1
 
+            if pieces[index]:
+                if pieces[index].checkIsBlack():
+                    blackPieces.addPiece(pieces[index])
+                else:
+                    whitePieces.addPiece(pieces[index])
+
+            index += 1
         return ChessBoard(pieces)
 
