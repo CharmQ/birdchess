@@ -12,13 +12,41 @@ class GameEngine:
         self.whitePieces = Team()
         self.blackPieces = Team()
         self.Board = ChessBoard.FEN_BoardGenerator("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", self.whitePieces, self.blackPieces)
-        print(self.blackPieces.getKing().getSpace().getID())
+        self.whitePieces.setOppTeam(self.blackPieces)
+        self.blackPieces.setOppTeam(self.whitePieces)
         self.printBoard()
         self.UIHandler = UIHandler(self.canvas, self.Board, self)
         self.isBlackTurn = False
+        self.turnSetup()
 
     def run(self):
         self.window.mainloop()
+
+    def turnSetup(self):
+        if self.isBlackTurn:
+            turnToMove = self.blackPieces
+            opp = self.whitePieces
+        else:
+            turnToMove = self.whitePieces
+            opp = self.blackPieces
+        turnToMove.computeControlledSquares()
+        opp.computeControlledSquares()
+        for piece in opp.getCheckingPieces():
+            print(piece.getName(), piece.getSpace().getID())
+        for space in opp.getCheckingLine():
+            print(space.getID())
+        for move in turnToMove.getKing().getStdMoves()[1]:
+            print(move.getID())
+        turnToMove.totalLegalMoves()
+        print(len(turnToMove.getTotalLegalMoves()))
+        turnToMove.printLegalMoves()
+        print("\n")
+
+    def turnEnd(self):
+        self.toggleTurn()
+        self.whitePieces.reset()
+        self.blackPieces.reset()
+        self.turnSetup()
 
     def getWhitePieces(self):
         return self.whitePieces
@@ -31,8 +59,8 @@ class GameEngine:
 
     def moveIsLegal(self, piece, targetSpace):
         if piece.checkIsBlack() == self.isBlackTurn:
-            #if piece
-            return True
+            if piece.isMoveLegal(targetSpace):
+                return True
         return False
 
     def printBoard(self):

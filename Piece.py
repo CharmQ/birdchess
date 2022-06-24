@@ -8,9 +8,14 @@ class Piece(ABC):
     def __init__(self, isBlack, drawID = None, space=None):
         self.isBlack = isBlack
         self.space = space
-        self.moves = []
+        self.std_moves = [[],[]] #First index contains list if all controlled squares, second contains list of all space piece can move to
         self.drawID = drawID
         self.code = ""
+        self.team = None
+        self.name = ""
+        self.pinningLine = []
+        self.pinnedPieces = []
+        self.moveCounter = 0
 
     def checkIsBlack(self):
         return self.isBlack
@@ -18,11 +23,14 @@ class Piece(ABC):
     def getSpace(self):
         return self.space
 
-    def getMoves(self):
-        return self.moves
+    def getStdMoves(self):
+        return self.std_moves
 
     def getCode(self):
         return self.code
+
+    def getName(self):
+        return self.name
 
     def setSpace(self, space):
         self.space = space
@@ -36,15 +44,60 @@ class Piece(ABC):
     def delete(self, canvas):
         self.getSpace().setPiece(None)
         canvas.delete(self.getDrawID())
+        self.team.deletePiece(self)
     
     def isMoveLegal(self, targetSpace):
-        return True
-        #return targetSpace in self.legalMoves()
+        return targetSpace in self.legalMoves()
 
-    @abstractmethod
+    def getTeam(self):
+        return self.team
+
+    def setTeam(self, team):
+        self.team = team
+
+    def sameColorAs(self, piece):
+        return piece.checkIsBlack() == self.isBlack
+
+    def setPin(self, pinLine):
+        self.pinningLine = pinLine
+    
+    def unPin(self):
+        self.pinningLine = []
+
+    def canMoveTo(self, space):
+        if not(space.getPiece()):
+            return True
+        if not(space.getPiece().checkIsBlack() == self.isBlack):
+            return True
+        return False
+
+    def move(self, targetSpace, canvas):
+        if targetSpace.getPiece():
+            targetSpace.getPiece().delete(canvas)
+        self.space.setPiece(None)
+        self.space = targetSpace 
+        self.space.setPiece(self)
+
     def legalMoves(self):
-        pass
+        if len(self.team.getOppTeam().getCheckingPieces()) >= 2:
+            return []
+        moves = self.std_moves[1].copy()
+        temp = []
+        if len(self.pinningLine):
+            for space in moves:
+                if space in self.pinningLine:
+                    temp.append(space)  
+            moves = temp
+        if len(self.team.getOppTeam().getCheckingPieces()) == 1:
+            chk_line = self.team.getOppTeam().getCheckingLine()
+            temp = []
+            for space in moves:
+                if space in chk_line:
+                    temp.append(space)
+            moves = temp
+        return moves
+
     
     @abstractmethod
-    def standardMoves(self):
+    def computeStandardMoves(self):
         pass

@@ -5,27 +5,39 @@ class King(Piece):
 
     def __init__(self, isBlack, drawID = None, space=None):
         Piece.__init__(self, isBlack, drawID, space)
+        self.name = "King"
         if isBlack:
             self.code = int("265A", 16)
         else:
             self.code = int("2654", 16)
 
     def legalMoves(self):
-        board = self.getSpace().getBoard()
-        loc = self.getSpace().getLoc()
+        controlledSquares = self.getTeam().getOppTeam().getControlledSquares()
         moves = []
+        for space in self.std_moves[1]:
+            if not(space in controlledSquares):
+                moves.append(space)
+        return moves
+
+
+
+    def computeStandardMoves(self):
+        print('compute')
+        board = self.space.getBoard().getSpaces()
+        loc = self.getSpace().getLoc()
         function = [-1,0,1]
         for i in range(len(function)):
             for j in range(len(function)):
                 try:
                     temp = (loc[0] + function[i],loc[1] + function[j])
+                    if loc[0] + function[i] < 0 or loc[1] + function[j]<0:
+                        raise IndexError
                     if temp != loc:
-                        moves.append(board[temp[0]][temp[1]])
-                except Exception:
+                        self.std_moves[0].append(board[temp[0]][temp[1]])
+                        if self.canMoveTo(board[temp[0]][temp[1]]):
+                            self.std_moves[1].append(board[temp[0]][temp[1]])
+                except IndexError:
                     pass
-
-    def standardMoves(self):
-        pass
 '''
 0,0 | 0,1 | 0,2 | 0,3 | 0,4 | 0,5 | 0,6 | 0,7 |
 1,0 | 1,1 | 1,2 | 1,3 | 1,4 | 1,5 | 1,6 | 1,7 |

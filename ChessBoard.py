@@ -22,7 +22,6 @@ class ChessBoard:
 
     @classmethod
     def FEN_BoardGenerator(cls, FENString, whitePieces, blackPieces):
-
         FENString = FENString.replace("/", "")
         pieces=[None]*64
         index = 0
@@ -63,9 +62,10 @@ class ChessBoard:
             if pieces[index]:
                 if pieces[index].checkIsBlack():
                     blackPieces.addPiece(pieces[index])
+                    pieces[index].setTeam(blackPieces)
                 else:
                     whitePieces.addPiece(pieces[index])
-
+                    pieces[index].setTeam(whitePieces)
             index += 1
         return ChessBoard(pieces)
 
