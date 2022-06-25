@@ -44,6 +44,7 @@ class Rook(Piece):
                         if isinstance(board[loc[0]+(dir[i*2])*distance][loc[1]+(dir[i*2+1])*distance].getPiece(), King) and self.canMoveTo(board[loc[0]+(dir[i*2])*distance][loc[1]+(dir[i*2+1])*distance]):
                             self.team.setCheckingLine(temp)
                             self.team.addCheckingPiece(self)
+                            self.std_moves[0].append(board[loc[0]+(dir[i*2])*(distance + 1)][loc[1]+(dir[i*2+1])*(distance+1)])
                             KingEncountered = True
                             break
                         if not(board[loc[0]+(dir[i*2])*distance][loc[1]+(dir[i*2+1])*distance].getPiece().checkIsBlack() == self.isBlack):
