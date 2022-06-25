@@ -2,7 +2,8 @@ from King import King
 
 class Team:
 
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.pieces = []
         self.controlledSquares = set()
         self.totLegalMoves = [] 
@@ -13,6 +14,9 @@ class Team:
 
     def getPieces(self):
         return self.pieces
+    
+    def getName(self):
+        return self.name
     
     def getControlledSquares(self):
         return self.controlledSquares

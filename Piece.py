@@ -72,11 +72,15 @@ class Piece(ABC):
         return False
 
     def move(self, targetSpace, canvas):
+
         if targetSpace.getPiece():
             targetSpace.getPiece().delete(canvas)
         self.space.setPiece(None)
         self.space = targetSpace 
         self.space.setPiece(self)
+        canvas.coords(self.getDrawID(), self.getSpace().getLoc()[1]*90 + 45, self.getSpace().getLoc()[0]*90 + 45)
+        canvas.tag_raise(self.getDrawID())
+        self.moveCounter += 1
 
     def legalMoves(self):
         if len(self.team.getOppTeam().getCheckingPieces()) >= 2:
@@ -97,6 +101,8 @@ class Piece(ABC):
             moves = temp
         return moves
 
+    def getMoveCounter(self):
+        return self.moveCounter
     
     @abstractmethod
     def computeStandardMoves(self):

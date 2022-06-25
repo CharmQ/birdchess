@@ -46,7 +46,7 @@ class UIHandler:
             return
 
         prev_space.getPiece().move(space, self.canvas)
-        self.canvas.coords(id, (event.x // 90)*90 + 45, (event.y // 90)*90 + 45)
+        #self.canvas.coords(id, (event.x // 90)*90 + 45, (event.y // 90)*90 + 45)
         self.gameEng.turnEnd()
         self.canvas.unbind('<B1-Motion>')
         self.canvas.unbind('<ButtonRelease-1>')

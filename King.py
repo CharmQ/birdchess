@@ -11,26 +11,78 @@ class King(Piece):
         else:
             self.code = int("2654", 16)
 
+    def move(self, targetSpace, canvas):
+        board = self.space.getBoard().getSpaces()
+        prev_space_loc = self.space.getLoc()
+        super().move(targetSpace, canvas)
+        print(self.space.getLoc()[1] - prev_space_loc[1])
+
+        if abs(self.space.getLoc()[1] - prev_space_loc[1]) == 2:
+            if self.space.getLoc() == (7,6):
+                board[7][7].getPiece().move(board[7][5], canvas)
+            elif self.space.getLoc() == (7,2):
+                print(board[7][0].getPiece())
+                board[7][0].getPiece().move(board[7][3], canvas)
+            elif self.space.getLoc() == (0,6):
+                board[0][7].getPiece().move(board[0][5], canvas)
+            else:
+                board[0][0].getPiece().move(board[0][3], canvas)
+                pass
+
+
     def legalMoves(self):
+        board = self.space.getBoard().getSpaces()
         controlledSquares = self.getTeam().getOppTeam().getControlledSquares()
+        loc = self.getSpace().getLoc()
+        inc = 1
         moves = []
         for space in self.std_moves[1]:
             if not(space in controlledSquares):
                 moves.append(space)
+
+        if not(self.isInCheck()):
+            if self.getMoveCounter() == 0:
+                while loc[1] + inc >= 0 and loc[1] + inc <= 7:
+                    if board[loc[0]][loc[1] + inc].getPiece() and not (board[loc[0]][loc[1] + inc].getPiece().getName() == "Rook"):
+                        break
+                    elif board[loc[0]][loc[1] + inc] in controlledSquares:
+                        break
+                    elif board[loc[0]][loc[1] + inc].getPiece() and board[loc[0]][loc[1] + inc].getPiece().getName() == "Rook":
+                        if board[loc[0]][loc[1] + inc].getPiece().getMoveCounter() == 0:
+                            moves.append(board[loc[0]][loc[1] + 2])
+                    else:
+                        pass
+                    inc+=1
+
+
+                inc = 1
+                while loc[1] - inc >= 0 and loc[1] - inc <= 7:
+                    if board[loc[0]][loc[1] - inc].getPiece() and not (board[loc[0]][loc[1] - inc].getPiece().getName() == "Rook"):
+                        break
+                    elif board[loc[0]][loc[1] - inc] in controlledSquares:
+                        break
+                    elif board[loc[0]][loc[1] - inc].getPiece() and board[loc[0]][loc[1] - inc].getPiece().getName() == "Rook":
+                        if board[loc[0]][loc[1] - inc].getPiece().getMoveCounter() == 0:
+                            moves.append(board[loc[0]][loc[1] - 2])
+                    else:
+                        pass
+                    inc+=1        
+            
         return moves
 
-
+    def isInCheck(self):
+        controlledSquares = self.getTeam().getOppTeam().getControlledSquares()
+        return self.space in controlledSquares
 
     def computeStandardMoves(self):
-        print('compute')
+        self.std_moves = [[],[]]
         board = self.space.getBoard().getSpaces()
         loc = self.getSpace().getLoc()
-        function = [-1,0,1]
-        for i in range(len(function)):
-            for j in range(len(function)):
+        for i in [-1,0,1]:
+            for j in [-1,0,1]:
                 try:
-                    temp = (loc[0] + function[i],loc[1] + function[j])
-                    if loc[0] + function[i] < 0 or loc[1] + function[j]<0:
+                    temp = (loc[0] + i,loc[1] + j)
+                    if loc[0] + i < 0 or loc[1] + j < 0:
                         raise IndexError
                     if temp != loc:
                         self.std_moves[0].append(board[temp[0]][temp[1]])
