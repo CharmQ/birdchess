@@ -50,6 +50,9 @@ class Team:
     def deletePiece(self, piece):
         self.pieces.remove(piece)
 
+    def clearPieces(self):
+        self.pieces = []
+
     def getKing(self):
         return self.king
 

@@ -3,32 +3,47 @@ from tkinter import messagebox
 from UIHandler import UIHandler
 from ChessBoard import ChessBoard
 from Team import Team
+from copy import copy
 
 
 class GameEngine:
     def __init__(self, window):
         self.window = window
-        self.canvas = Canvas(window, bg="white", width=self.window.winfo_screenwidth(), height=self.window.winfo_screenheight())
-        self.canvas.pack()
+        self.canvas = Canvas(window, bg="white", width=720, height=720)
+        self.canvas.pack(side="left", fill="both", expand=False)
+        self.frame = Frame(window, width=360, height=720)
+        self.frame.pack(side="right", fill="both", expand=False)
+        self.undoButton = Button(self.frame, text="Undo Last Move", command=self.undoLastMove)
+        self.undoButton.place(x=0, y =690)
         self.whitePieces = Team("White")
         self.blackPieces = Team("Black")
+        self.boardStates = []
         self.Board = ChessBoard.FEN_BoardGenerator("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", self.whitePieces, self.blackPieces)
         self.whitePieces.setOppTeam(self.blackPieces)
         self.blackPieces.setOppTeam(self.whitePieces)
-        self.printBoard()
         self.UIHandler = UIHandler(self.canvas, self.Board, self)
         self.isBlackTurn = False
         self.turnToMove = None
         self.opp = None
         self.prev_color = None
         self.inCheck = False
+        self.window
+        self.moveUndone = False
+        self.printBoard()
         self.turnSetup()
+        
+
         
 
     def run(self):
         self.window.mainloop()
 
     def turnSetup(self):
+        if self.moveUndone:
+            self.moveUndone = False
+        else:    
+            self.boardStates.append(self.Board.computeFENString())
+
         if self.isBlackTurn:
             self.turnToMove = self.blackPieces
             self.opp = self.whitePieces
@@ -59,6 +74,19 @@ class GameEngine:
         self.blackPieces.reset()
         self.turnSetup()
 
+
+    def undoLastMove(self):
+        if len(self.boardStates) == 1:
+            return
+        self.boardStates.pop()
+        self.whitePieces.clearPieces()
+        self.blackPieces.clearPieces()
+        self.Board = ChessBoard.FEN_BoardGenerator(self.boardStates[-1], self.whitePieces, self.blackPieces)
+        self.UIHandler.setBoard(self.Board)
+        self.moveUndone = True
+        self.canvas.delete("all")
+        self.printBoard()
+        self.turnEnd()
 
     def checkMate(self):
         messagebox.showinfo("Checkmate", self.opp.getName() + " has won by checkmate")

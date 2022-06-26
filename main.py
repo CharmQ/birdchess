@@ -3,7 +3,7 @@ import GameEngine
 
 
 window = Tk()
-window.geometry("720x720")
+window.geometry("1080x720")
 window.title("Chess")
 window.resizable(False, False)
 

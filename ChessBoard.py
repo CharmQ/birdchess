@@ -20,6 +20,66 @@ class ChessBoard:
     def getSpaces(self):
         return self.spaces
 
+    def computeFENString(self):
+        FEN_string = ""
+        counter = 0
+        for row in self.spaces:
+            for space in row:
+                piece = space.getPiece()
+                if piece:
+                    if counter > 0:
+                        FEN_string += str(counter)
+                        counter = 0
+
+                    if isinstance(piece, Pawn):
+                        if piece.checkIsBlack():
+                            FEN_string += "p"
+                        else:
+                            FEN_string += "P"
+
+                    if isinstance(piece, Bishop):
+                        if piece.checkIsBlack():
+                            FEN_string += "b"
+                        else:
+                            FEN_string += "B"
+
+                    if isinstance(piece, Knight):
+                        if piece.checkIsBlack():
+                            FEN_string += "n"
+                        else:
+                            FEN_string += "N"
+
+                    if isinstance(piece, Rook):
+                        if piece.checkIsBlack():
+                            FEN_string += "r"
+                        else:
+                            FEN_string += "R"
+
+                    if isinstance(piece, King):
+                        if piece.checkIsBlack():
+                            FEN_string += "k"
+                        else:
+                            FEN_string += "K"
+
+                    if isinstance(piece, Queen):
+                        if piece.checkIsBlack():
+                            FEN_string += "q"
+                        else:
+                            FEN_string += "Q"                                               
+
+                else:
+                    counter+=1
+            if counter > 0:
+                FEN_string += str(counter)
+                counter = 0
+            FEN_string +="/"
+
+        FEN_string = FEN_string[:-1]
+
+
+        return FEN_string
+
+
     @classmethod
     def FEN_BoardGenerator(cls, FENString, whitePieces, blackPieces):
         FENString = FENString.replace("/", "")
@@ -68,4 +128,5 @@ class ChessBoard:
                     pieces[index].setTeam(whitePieces)
             index += 1
         return ChessBoard(pieces)
+
 

@@ -25,7 +25,7 @@ class Pawn(Piece):
         if not(board[loc[0]+direction][loc[1]].getPiece()):
             self.std_moves[1].append(board[loc[0]+direction][loc[1]])
 
-            if not(board[loc[0]+direction+direction][loc[1]].getPiece()) and self.moveCounter == 0:
+            if self.moveCounter == 0 and not(board[loc[0]+direction+direction][loc[1]].getPiece()):
                 self.std_moves[1].append(board[loc[0]+direction+direction][loc[1]])
 
         try:

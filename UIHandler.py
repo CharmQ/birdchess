@@ -8,6 +8,8 @@ class UIHandler:
     def start_move(self, event):
         x = event.x
         y = event.y
+        if x <= 0 or x>=720 or y <= 0 or y >= 720: 
+            return
         if not self.board.getSpaces()[y // 90][x // 90].getPiece():
             return
         self.canvas.tag_raise(self.board.getSpaces()[y // 90][x // 90].getPiece().getDrawID())
@@ -50,3 +52,6 @@ class UIHandler:
         self.gameEng.turnEnd()
         self.canvas.unbind('<B1-Motion>')
         self.canvas.unbind('<ButtonRelease-1>')
+
+    def setBoard(self, board):
+        self.board = board
