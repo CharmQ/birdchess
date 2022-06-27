@@ -15,6 +15,8 @@ class GameEngine:
         self.frame.pack(side="right", fill="both", expand=False)
         self.undoButton = Button(self.frame, text="Undo Last Move", command=self.undoLastMove)
         self.undoButton.place(x=0, y =690)
+        self.flipBoardButton = Button(self.frame, text="Flip Board", command=self.flipBoard)
+        self.flipBoardButton.place(x=150, y =690)
         self.whitePieces = Team("White")
         self.blackPieces = Team("Black")
         self.boardStates = []
@@ -29,6 +31,7 @@ class GameEngine:
         self.inCheck = False
         self.window
         self.moveUndone = False
+        self.boardFlipped = False
         self.printBoard()
         self.turnSetup()
         
@@ -62,8 +65,8 @@ class GameEngine:
                 self.checkMate()
             else:
                 self.staleMate()
-        self.turnToMove.printLegalMoves()
-        print("\n")
+        #self.turnToMove.printLegalMoves()
+        #print("\n")
 
     def turnEnd(self):
         #if self.inCheck:
@@ -87,6 +90,10 @@ class GameEngine:
         self.canvas.delete("all")
         self.printBoard()
         self.turnEnd()
+
+    def flipBoard(self):
+        self.boardFlipped = True
+        self.UIHandler.toggleBoardFlipped()
 
     def checkMate(self):
         messagebox.showinfo("Checkmate", self.opp.getName() + " has won by checkmate")
@@ -115,20 +122,24 @@ class GameEngine:
 
         spaces = self.Board.getSpaces()
 
-        for i in range(len(spaces)):
-            for j in range(len(spaces[0])):
+        if self.boardFlipped:
+            pass
 
-                xtopleft = j * 90
-                yTopLeft = i * 90
+        else:
+            for i in range(len(spaces)):
+                for j in range(len(spaces[0])):
 
-                if spaces[i][j].checkIfDark():
-                    color = "green"
-                else:
-                    color = "white"
+                    xtopleft = j * 90
+                    yTopLeft = i * 90
 
-                self.canvas.create_rectangle(xtopleft, yTopLeft, xtopleft+90, yTopLeft+90, fill=color)
-                if spaces[i][j].getPiece():
-                    spaces[i][j].getPiece().setDrawID(self.canvas.create_text(xtopleft + 45, yTopLeft + 45, font=("Arial", 66), text=chr(spaces[i][j].getPiece().getCode())))
+                    if spaces[i][j].checkIfDark():
+                        color = "green"
+                    else:
+                        color = "white"
+
+                    self.canvas.create_rectangle(xtopleft, yTopLeft, xtopleft+90, yTopLeft+90, fill=color)
+                    if spaces[i][j].getPiece():
+                        spaces[i][j].getPiece().setDrawID(self.canvas.create_text(xtopleft + 45, yTopLeft + 45, font=("Arial", 66), text=chr(spaces[i][j].getPiece().getCode())))
 
 
 

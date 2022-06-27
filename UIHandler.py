@@ -4,6 +4,7 @@ class UIHandler:
         self.board = board
         self.canvas.bind('<Button-1>', lambda event: self.start_move(event))
         self.gameEng = gameEng
+        self.boardFlipped = False
 
     def start_move(self, event):
         x = event.x
@@ -55,3 +56,6 @@ class UIHandler:
 
     def setBoard(self, board):
         self.board = board
+
+    def toggleBoardFlipped(self):
+        self.boardFlipped = not(self.boardFlipped)
