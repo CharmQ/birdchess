@@ -18,14 +18,14 @@ class King(Piece):
 
         if abs(self.space.getLoc()[1] - prev_space_loc[1]) == 2:
             if self.space.getLoc() == (7,6):
-                board[7][7].getPiece().move(board[7][5], canvas)
+                board[7][7].getPiece().move(board[7][5], canvas, boardFlipped)
             elif self.space.getLoc() == (7,2):
                 print(board[7][0].getPiece())
-                board[7][0].getPiece().move(board[7][3], canvas)
+                board[7][0].getPiece().move(board[7][3], canvas, boardFlipped)
             elif self.space.getLoc() == (0,6):
-                board[0][7].getPiece().move(board[0][5], canvas)
+                board[0][7].getPiece().move(board[0][5], canvas, boardFlipped)
             else:
-                board[0][0].getPiece().move(board[0][3], canvas)
+                board[0][0].getPiece().move(board[0][3], canvas, boardFlipped)
                 pass
 
 
