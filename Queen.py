@@ -27,8 +27,8 @@ class Queen(Piece):
         self.rook.setTeam(team)
         self.bishop.setTeam(team)
 
-    def move(self, targetSpace, canvas):
-        super().move(targetSpace, canvas)
+    def move(self, targetSpace, canvas, boardFlipped):
+        super().move(targetSpace, canvas, boardFlipped)
         self.rook.setSpace(targetSpace)
         self.bishop.setSpace(targetSpace)
 

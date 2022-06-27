@@ -11,11 +11,10 @@ class King(Piece):
         else:
             self.code = int("2654", 16)
 
-    def move(self, targetSpace, canvas):
+    def move(self, targetSpace, canvas, boardFlipped):
         board = self.space.getBoard().getSpaces()
         prev_space_loc = self.space.getLoc()
-        super().move(targetSpace, canvas)
-        print(self.space.getLoc()[1] - prev_space_loc[1])
+        super().move(targetSpace, canvas, boardFlipped)
 
         if abs(self.space.getLoc()[1] - prev_space_loc[1]) == 2:
             if self.space.getLoc() == (7,6):

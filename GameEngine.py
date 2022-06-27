@@ -17,8 +17,8 @@ class GameEngine:
         self.undoButton.place(x=0, y =690)
         self.flipBoardButton = Button(self.frame, text="Flip Board", command=self.flipBoard)
         self.flipBoardButton.place(x=150, y =690)
-        self.whitePieces = Team("White")
-        self.blackPieces = Team("Black")
+        self.whitePieces = Team("White", self)
+        self.blackPieces = Team("Black", self)
         self.boardStates = []
         self.Board = ChessBoard.FEN_BoardGenerator("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", self.whitePieces, self.blackPieces)
         self.whitePieces.setOppTeam(self.blackPieces)
@@ -36,7 +36,8 @@ class GameEngine:
         self.turnSetup()
         
 
-        
+    def getWindow(self):
+        self.window
 
     def run(self):
         self.window.mainloop()
@@ -87,13 +88,13 @@ class GameEngine:
         self.Board = ChessBoard.FEN_BoardGenerator(self.boardStates[-1], self.whitePieces, self.blackPieces)
         self.UIHandler.setBoard(self.Board)
         self.moveUndone = True
-        self.canvas.delete("all")
         self.printBoard()
         self.turnEnd()
 
     def flipBoard(self):
-        self.boardFlipped = True
+        self.boardFlipped = not(self.boardFlipped)
         self.UIHandler.toggleBoardFlipped()
+        self.printBoard()
 
     def checkMate(self):
         messagebox.showinfo("Checkmate", self.opp.getName() + " has won by checkmate")
@@ -120,10 +121,25 @@ class GameEngine:
 
     def printBoard(self):
 
+        self.canvas.delete("all")
+
         spaces = self.Board.getSpaces()
 
         if self.boardFlipped:
-            pass
+            for i in range(len(spaces)):
+                for j in range(len(spaces[0])):
+
+                    xtopleft = j * 90
+                    yTopLeft = i * 90
+
+                    if spaces[7-i][7-j].checkIfDark():
+                        color = "green"
+                    else:
+                        color = "white"
+
+                    self.canvas.create_rectangle(xtopleft, yTopLeft, xtopleft+90, yTopLeft+90, fill=color)
+                    if spaces[7-i][7-j].getPiece():
+                        spaces[7-i][7-j].getPiece().setDrawID(self.canvas.create_text(xtopleft + 45, yTopLeft + 45, font=("Arial", 66), text=chr(spaces[7-i][7-j].getPiece().getCode())))
 
         else:
             for i in range(len(spaces)):

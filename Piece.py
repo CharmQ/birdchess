@@ -71,14 +71,17 @@ class Piece(ABC):
             return True
         return False
 
-    def move(self, targetSpace, canvas):
+    def move(self, targetSpace, canvas, boardFlipped):
 
         if targetSpace.getPiece():
             targetSpace.getPiece().delete(canvas)
         self.space.setPiece(None)
         self.space = targetSpace 
         self.space.setPiece(self)
-        canvas.coords(self.getDrawID(), self.getSpace().getLoc()[1]*90 + 45, self.getSpace().getLoc()[0]*90 + 45)
+        if boardFlipped:
+            canvas.coords(self.getDrawID(), 720 - self.getSpace().getLoc()[1]*90 - 45, 720 - self.getSpace().getLoc()[0]*90 - 45)
+        else:    
+            canvas.coords(self.getDrawID(), self.getSpace().getLoc()[1]*90 + 45, self.getSpace().getLoc()[0]*90 + 45)
         canvas.tag_raise(self.getDrawID())
         self.moveCounter += 1
 
